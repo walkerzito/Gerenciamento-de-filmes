@@ -5,7 +5,7 @@ O aplicativo é um aplicativo inovador de gerenciamento de filmes, projetado par
 
 # Recursos Principais:
 
-## Catálogo Pessoal: 
+### Catálogo Pessoal: 
 
 Os usuários podem criar suas próprias coleções de filmes, classificá-los por gênero, ano de lançamento, avaliação pessoal e outras categorias personalizáveis. Isso permite que os usuários mantenham um registro organizado de todos os filmes que assistiram e que desejam assistir.
 
