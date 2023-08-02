@@ -13,7 +13,7 @@ Os usuários podem criar suas próprias coleções de filmes, classificá-los po
 
 O CineManage oferece recomendações personalizadas com base nas preferências do usuário, histórico de visualização e avaliações anteriores. Os usuários também podem explorar filmes populares, tendências atuais e clássicos icônicos.
 
-#Avaliações e Avaliações:
+# Avaliações e Avaliações:
 
 Os usuários podem avaliar e revisar filmes, contribuindo para uma comunidade de avaliações de qualidade. Essas avaliações ajudam outros usuários a tomar decisões informadas sobre o que assistir a seguir.
 
