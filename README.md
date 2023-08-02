@@ -33,6 +33,6 @@ Os usuários podem configurar notificações para lembrá-los sobre lançamentos
 
 Os usuários podem compartilhar suas avaliações, listas de filmes e coleções com amigos e outras redes sociais, promovendo discussões e interações significativas em torno do cinema.
 
-#Análises Estatísticas:
+# Análises Estatísticas:
 
 O CineManage oferece insights detalhados sobre os hábitos de visualização do usuário, suas classificações médias por gênero, padrões de visualização ao longo do tempo e outras estatísticas interessantes.
