@@ -11,7 +11,7 @@ Os usuários podem criar suas próprias coleções de filmes, classificá-los po
 
 ## Descoberta de Filmes:
 
-O CineManage oferece recomendações personalizadas com base nas preferências do usuário, histórico de visualização e avaliações anteriores. Os usuários também podem explorar filmes populares, tendências atuais e clássicos icônicos.
+O aplicativo oferece recomendações personalizadas com base nas preferências do usuário, histórico de visualização e avaliações anteriores. Os usuários também podem explorar filmes populares, tendências atuais e clássicos icônicos.
 
 ## Avaliações e Avaliações:
 
@@ -35,4 +35,4 @@ Os usuários podem compartilhar suas avaliações, listas de filmes e coleções
 
 ## Análises Estatísticas:
 
-O CineManage oferece insights detalhados sobre os hábitos de visualização do usuário, suas classificações médias por gênero, padrões de visualização ao longo do tempo e outras estatísticas interessantes.
+O aplicativo oferece insights detalhados sobre os hábitos de visualização do usuário, suas classificações médias por gênero, padrões de visualização ao longo do tempo e outras estatísticas interessantes.
