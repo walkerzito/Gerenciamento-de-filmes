@@ -1,0 +1,50 @@
+@startuml
+
+class Usuario{
+    - nome: String
+    - email: String
+    - senha: String
+    - is_admin: bool
+    + criarReview()
+    + editarReview()
+    + excluirReview()
+    + visualizarReview()
+    + editarSenha()
+    + excluirConta()
+    + criarConta()
+}
+
+class Admin{
+    + editarReviewDeOutroUser()
+    + criarFilme()
+    + excluirFilmes()
+    + editarFilmesExistentes()
+    + apagarContaDeOutroUser()
+}
+
+class Filme{
+    - nome: String
+    - rating: double
+    - releaseDate: Date
+    - reviews: Review[]
+    + criarFilme()
+    + editarFilme()
+    + excluirFilme()
+    + exibirFilme()
+}
+
+class Review{
+    - userId: String
+    - dataDePostagem: Date
+    - content: String
+    + criarReview()
+    + editarReview()
+    + excluirReview()
+    + exibirReview()
+}
+
+
+Usuario <|-- Admin
+Review "0*"-->"n" Usuario
+Review "0*"-->"n" Filme
+@enduml
