@@ -1,50 +1,137 @@
-import java.util.ArrayList;
-import java.util.List;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class Usuario {
     String nome;
     String email;
     String senha;
     boolean isAdmin;
-    List<Review> reviews;
 
-    public Usuario(String nome, String email, String senha, boolean isAdmin, ArrayList<Review> reviews) {
+    public Usuario(String nome, String email, String senha, boolean isAdmin) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.isAdmin = isAdmin;
-        this.reviews = reviews;
     }
 
-    public Usuario login(String login, String senha) {
-        // verificar no banco se o user existe;
+    ConnectSQL sqlKeys = new ConnectSQL();
+
+    public Usuario login(String email, String senha) {
+        String sql = "SELECT * FROM users WHERE email = '" + email + "' AND senha = '" + senha + "'";
+        Usuario usr = new Usuario(null, null, null, false);
+        try (Connection connection = DriverManager.getConnection(sqlKeys.url, sqlKeys.user, sqlKeys.password);
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(sql)) {
+
+            if (resultSet.next()) {
+                System.out.println("Login bem-sucedido!");
+                return obterDadosUsuario(email);
+            } else {
+                System.out.println("Credenciais inválidas. Tente novamente.");
+                return usr;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return usr;
+        }
     }
 
     public void editPass(String senha) {
         this.senha = senha;
     }
 
-    public String deleteUser(String nome) {
-        return nome;
-    }
+    private Usuario obterDadosUsuario(String email) {
+        String sql = "SELECT * FROM users WHERE email = '" + email + "'";
+        Usuario usr = new Usuario(null, null, null, false);
+        try (Connection connection = DriverManager.getConnection(sqlKeys.url, sqlKeys.user, sqlKeys.password);
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(sql)) {
 
-    public String showUser(String email) {
-        String str = "";
-        str = ("Nome: " + this.nome + "\n");
-        str = str + ("Email: " + this.email + "\n");
-        for (int i = 0; i < this.reviews.size(); i++) {
-            str = str + ("Review " + i + ": " + this.reviews.get(i).showFilme(str) + "\n");
+            if (resultSet.next()) {
+                usr = new Usuario(resultSet.getString("nome"), resultSet.getString("email"),
+                        resultSet.getString("senha"), resultSet.getBoolean("isAdmin"));
+                return usr;
+            } else {
+                System.out.println("Usuário não encontrado.");
+                return usr;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return usr;
         }
-        return str;
     }
 
-    public List<Review> getReviews() {
-        return reviews;
+    public void criarConta(String nome, String email, String senha) {
+        String sql = "INSERT INTO users (nome, email, senha, isAdmin) VALUES ('" + nome + "', '" + email + "', '"
+                + senha + "', " + false + ")";
+
+        try (Connection connection = DriverManager.getConnection(sqlKeys.url, sqlKeys.user, sqlKeys.password);
+                Statement statement = connection.createStatement()) {
+
+            int rowsAffected = statement.executeUpdate(sql);
+
+            if (rowsAffected > 0) {
+                System.out.println("Conta criada com sucesso!");
+                this.nome = nome;
+                this.email = email;
+                this.senha = senha;
+                this.isAdmin = false;
+            } else {
+                System.out.println("Não foi possível criar a conta.");
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void setReviews(List<Review> reviews) {
-        this.reviews = reviews;
+    public String deleteUser(String email) {
+        String sql = "DELETE FROM users WHERE email = '" + email + "'";
+
+        try (Connection connection = DriverManager.getConnection(sqlKeys.url, sqlKeys.user, sqlKeys.password);
+                Statement statement = connection.createStatement()) {
+
+            int rowsAffected = statement.executeUpdate(sql);
+
+            if (rowsAffected > 0) {
+                return "Usuário " + email + " excluído com sucesso.";
+            } else {
+                return "Usuário " + email + " não encontrado.";
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return "Erro ao excluir o usuário " + email + ".";
+        }
     }
+
+    // public String showUser(String email) {
+    // String sql = "SELECT * FROM users WHERE email = '" + email + "'";
+
+    // try (Connection connection = DriverManager.getConnection(sqlKeys.url,
+    // sqlKeys.user, sqlKeys.password);
+    // Statement statement = connection.createStatement();
+    // ResultSet resultSet = statement.executeQuery(sql)) {
+
+    // if (resultSet.next()) {
+    // this.nome = resultSet.getString("nome");
+    // this.email = resultSet.getString("email");
+    // }
+
+    // } catch (SQLException e) {
+    // e.printStackTrace();
+    // }
+
+    // String str = "";
+    // str = ("Nome: " + this.nome + "\n");
+    // str = str + ("Email: " + this.email + "\n");
+    // return str;
+    // }
 
     public String getNome() {
         return nome;
