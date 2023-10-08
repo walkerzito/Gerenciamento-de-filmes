@@ -1,10 +1,12 @@
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Usuario {
+    int userId;
     String nome;
     String email;
     String senha;
@@ -67,16 +69,19 @@ public class Usuario {
     }
 
     public void criarConta(String nome, String email, String senha) {
-        String sql = "INSERT INTO users (nome, email, senha, isAdmin) VALUES ('" + nome + "', '" + email + "', '"
-                + senha + "', " + false + ")";
 
         try (Connection connection = DriverManager.getConnection(sqlKeys.url, sqlKeys.user, sqlKeys.password);
                 Statement statement = connection.createStatement()) {
+            int userId = obterProximoUserId(connection);
+            String sql = "INSERT INTO users (userId, nome, email, senha, isAdmin) VALUES ('"
+                    + userId + "', '" + nome
+                    + "', '" + email + "', '" + senha + "', " + false + ")";
 
             int rowsAffected = statement.executeUpdate(sql);
 
             if (rowsAffected > 0) {
                 System.out.println("Conta criada com sucesso!");
+                this.userId = userId;
                 this.nome = nome;
                 this.email = email;
                 this.senha = senha;
@@ -87,6 +92,19 @@ public class Usuario {
 
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    int obterProximoUserId(Connection connection) throws SQLException {
+        String sql = "SELECT MAX(userId) FROM users";
+        try (PreparedStatement statement = connection.prepareStatement(sql);
+                ResultSet resultSet = statement.executeQuery()) {
+            if (resultSet.next()) {
+                int idMaximo = resultSet.getInt(1);
+                return idMaximo + 1;
+            } else {
+                return 1;
+            }
         }
     }
 
