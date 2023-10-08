@@ -33,7 +33,26 @@ public class Screens {
         System.out.println("1. Login");
         System.out.println("2. Criar Conta");
         escolha = sc.nextInt();
+        sc.nextLine();
         return escolha;
+    }
+
+    Usuario criarConta(Usuario user) {
+        limpaTelaWindows();
+        System.out.println("  ____ _            __  __                                   \r\n" + //
+                " / ___(_)_ __   ___|  \\/  | __ _ _ __   __ _  __ _  ___ _ __ \r\n" + //
+                "| |   | | '_ \\ / _ \\ |\\/| |/ _` | '_ \\ / _` |/ _` |/ _ \\ '__|\r\n" + //
+                "| |___| | | | |  __/ |  | | (_| | | | | (_| | (_| |  __/ |   \r\n" + //
+                " \\____|_|_| |_|\\___|_|  |_|\\__,_|_| |_|\\__,_|\\__, |\\___|_|   \r\n" + //
+                "                                             |___/           ");
+
+        System.out.println("Nome:");
+        user.nome = sc.nextLine();
+        System.out.println("Email");
+        user.email = sc.nextLine();
+        System.out.println("Senha");
+        user.senha = sc.nextLine();
+        return user;
     }
 
     int mainMenu() {
@@ -52,11 +71,13 @@ public class Screens {
         System.out.println("3. ADM");
         System.out.println("4. Sair");
         escolha = sc.nextInt();
+        sc.nextLine();
         return escolha;
     }
 
     void limpaTelaWindows() {
         System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
 }
