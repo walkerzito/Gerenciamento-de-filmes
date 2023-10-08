@@ -4,6 +4,7 @@ public class App {
         Screens telas = new Screens();
         int op = 0;
 
+        // Login e Criação de conta
         while (op != 1 && op != 2) {
             op = telas.criarOuLogar();
         }
@@ -17,6 +18,26 @@ public class App {
                 user = user.login(user.email, user.senha);
             }
         }
-        System.out.println(user.nome);
+
+        // Menu
+        op = telas.mainMenu();
+        switch (op) {
+            case 1:
+                // list filmes
+                break;
+            case 2:
+                // Conta
+                break;
+            case 3:
+                // Opções de Adm
+                break;
+            case 4:
+                // sair
+                break;
+
+            default:
+                break;
+        }
+
     }
 }

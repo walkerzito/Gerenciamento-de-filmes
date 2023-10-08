@@ -129,29 +129,6 @@ public class Usuario {
         }
     }
 
-    // public String showUser(String email) {
-    // String sql = "SELECT * FROM users WHERE email = '" + email + "'";
-
-    // try (Connection connection = DriverManager.getConnection(sqlKeys.url,
-    // sqlKeys.user, sqlKeys.password);
-    // Statement statement = connection.createStatement();
-    // ResultSet resultSet = statement.executeQuery(sql)) {
-
-    // if (resultSet.next()) {
-    // this.nome = resultSet.getString("nome");
-    // this.email = resultSet.getString("email");
-    // }
-
-    // } catch (SQLException e) {
-    // e.printStackTrace();
-    // }
-
-    // String str = "";
-    // str = ("Nome: " + this.nome + "\n");
-    // str = str + ("Email: " + this.email + "\n");
-    // return str;
-    // }
-
     public String getNome() {
         return nome;
     }
