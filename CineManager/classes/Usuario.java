@@ -12,18 +12,19 @@ public class Usuario {
     String senha;
     boolean isAdmin;
 
-    public Usuario(String nome, String email, String senha, boolean isAdmin) {
+    public Usuario(int userId, String nome, String email, String senha, boolean isAdmin) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.isAdmin = isAdmin;
+        this.userId = userId;
     }
 
     ConnectSQL sqlKeys = new ConnectSQL();
 
     public Usuario login(String email, String senha) {
         String sql = "SELECT * FROM users WHERE email = '" + email + "' AND senha = '" + senha + "'";
-        Usuario usr = new Usuario(null, null, null, false);
+        Usuario usr = new Usuario(-1, null, null, null, false);
         try (Connection connection = DriverManager.getConnection(sqlKeys.url, sqlKeys.user, sqlKeys.password);
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(sql)) {
@@ -48,13 +49,13 @@ public class Usuario {
 
     private Usuario obterDadosUsuario(String email) {
         String sql = "SELECT * FROM users WHERE email = '" + email + "'";
-        Usuario usr = new Usuario(null, null, null, false);
+        Usuario usr = new Usuario(-1, null, null, null, false);
         try (Connection connection = DriverManager.getConnection(sqlKeys.url, sqlKeys.user, sqlKeys.password);
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(sql)) {
 
             if (resultSet.next()) {
-                usr = new Usuario(resultSet.getString("nome"), resultSet.getString("email"),
+                usr = new Usuario(resultSet.getInt("userId"), resultSet.getString("nome"), resultSet.getString("email"),
                         resultSet.getString("senha"), resultSet.getBoolean("isAdmin"));
                 return usr;
             } else {

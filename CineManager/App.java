@@ -1,7 +1,12 @@
 public class App {
     public static void main(String[] args) {
-        Usuario user = new Usuario(null, null, null, false);
-        user = user.login("123", "124");
+        Usuario user = new Usuario(-1, null, null, null, false);
+        Screens telas = new Screens();
+
+        while (user.userId == -1) {
+            telas.loginScreen(user);
+            user = user.login(user.email, user.senha);
+        }
         System.out.println(user.nome);
         // String text = "";
         // Screens screens = new Screens();
