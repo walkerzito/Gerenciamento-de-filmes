@@ -1,3 +1,4 @@
+import java.io.File;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -5,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Filme {
     String nome;
@@ -124,6 +126,27 @@ public class Filme {
         str += "Lançamento: " + this.releasDate + "\n";
         str += "Avaliações: " + this.reviews + "\n";
         return str;
+    }
+
+    ArrayList<Filme> showFilmes() {
+        ArrayList<Filme> filmes = new ArrayList<>();
+        try {
+            Connection connection = DriverManager.getConnection(sqlKeys.url, sqlKeys.user, sqlKeys.password);
+            Statement statement = connection.createStatement();
+            ResultSet rs = statement.executeQuery("SELECT * FROM movies");
+            while (rs.next()) {
+                int movieId = rs.getInt("movieid");
+                String nome = rs.getString("nome");
+                double rating = rs.getDouble("rating");
+                Date releaseDate = rs.getDate("releasedate");
+                Filme filme = new Filme(nome, movieId, rating, releaseDate, null);
+                filmes.add(filme);
+            }
+            return filmes;
+        } catch (Exception e) {
+            System.out.println(e);
+            return filmes;
+        }
     }
 
     public String getNome() {

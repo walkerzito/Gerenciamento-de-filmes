@@ -5,6 +5,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import javafx.scene.SubScene;
+
 public class Usuario {
     int userId;
     String nome;
@@ -43,8 +45,24 @@ public class Usuario {
         }
     }
 
-    public void editPass(String senha) {
-        this.senha = senha;
+    public void editPass(String senha, int uiserId) {
+        try {
+            Connection conexao = DriverManager.getConnection(sqlKeys.url, sqlKeys.user, sqlKeys.password);
+            String sql = "UPDATE tabela_usuario SET senha = ? WHERE id = ?";
+            PreparedStatement preparedStatement = conexao.prepareStatement(sql);
+            preparedStatement.setString(1, senha);
+            preparedStatement.setInt(2, uiserId);
+            int linhasAfetadas = preparedStatement.executeUpdate();
+
+            if (linhasAfetadas > 0) {
+                this.senha = senha;
+                System.out.println("Senha atualizada com sucesso!");
+            } else {
+                System.out.println("Nenhum registro encontrado para atualização.");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     private Usuario obterDadosUsuario(String email) {

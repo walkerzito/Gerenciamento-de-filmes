@@ -1,18 +1,26 @@
+import java.sql.Array;
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLData;
 import java.sql.SQLException;
+import java.sql.SQLInput;
+import java.sql.SQLOutput;
 import java.sql.Statement;
+import java.util.ArrayList;
 
-public class Review {
-    String userId;
+import org.postgresql.jdbc.PgArray;
+
+public class Review implements SQLData {
+    int userId;
     int reviewId;
     Date dataDePostagem;
     String content;
+    private String sqlType;
 
-    public Review(String userId, Date dataDePostagem, String content, String reviewId) {
+    public Review(int userId, Date dataDePostagem, String content, String reviewId) {
         this.content = reviewId;
         this.userId = userId;
         this.dataDePostagem = dataDePostagem;
@@ -21,7 +29,7 @@ public class Review {
 
     ConnectSQL sqlKeys = new ConnectSQL();
 
-    public void criarReview(String userId, Date dataDePostagem, String content) {
+    public void criarReview(int userId, Date dataDePostagem, String content) {
         int reviewId;
         try (Connection connection = DriverManager.getConnection(sqlKeys.url, sqlKeys.user, sqlKeys.password)) {
             reviewId = obterProximoReviewId(connection);
@@ -116,7 +124,7 @@ public class Review {
                 ResultSet resultSet = statement.executeQuery(sql)) {
 
             if (resultSet.next()) {
-                this.userId = resultSet.getString("userid");
+                this.userId = resultSet.getInt("userid");
                 this.dataDePostagem = resultSet.getDate("dataDePostagem");
                 this.content = resultSet.getString("conteudo");
                 this.reviewId = resultSet.getInt("reviewid");
@@ -129,11 +137,53 @@ public class Review {
         }
     }
 
-    public String getUserId() {
+    void getAllRevielsFromId(int movieId) {
+        // ArrayList<Integer> comId = new ArrayList<>();
+        // try {
+        // Connection connection = DriverManager.getConnection(sqlKeys.url,
+        // sqlKeys.user, sqlKeys.password);
+        // Statement statement = connection.createStatement();
+        // ResultSet rs = statement.executeQuery("SELECT * FROM movies");
+        // Integer[] intArray = {};
+        // while (rs.next()) {
+        // PgArray pgArray = (PgArray) rs.getArray("fk_review");
+        // intArray = (Integer[]) pgArray.getArray();
+        // }
+        // for (int i : intArray) {
+        // comId.add(i);
+        // }
+        // try {
+        // Connection conexao = DriverManager.getConnection(sqlKeys.url, sqlKeys.user,
+        // sqlKeys.password);
+        // Statement state = conexao.createStatement();
+        // ResultSet result = state.executeQuery("SELECT * FROM reviews WHERE id = ?");
+        // for (int i = 0; i < comId.size(); i++) {
+        // result.getInt((int) comId.get(i));
+        // }
+        // while (result.next()) {
+        // int id = resultSet.getInt("id");
+        // String nome = resultSet.getString("nome");
+        // double salario = resultSet.getDouble("salario");
+
+        // // Faça o que desejar com os valores, como imprimir na tela
+        // System.out.println("ID: " + id);
+        // System.out.println("Nome: " + nome);
+        // System.out.println("Salário: " + salario);
+        // }
+        // } catch (SQLException e) {
+        // e.printStackTrace();
+        // }
+        // } catch (Exception e) {
+        // System.out.println(e);
+        // return comId;
+        // }
+    }
+
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 
@@ -151,6 +201,28 @@ public class Review {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    @Override
+    public String getSQLTypeName() throws SQLException {
+        return sqlType;
+    }
+
+    @Override
+    public void readSQL(SQLInput stream, String typeName) throws SQLException {
+        userId = stream.readInt();
+        reviewId = stream.readInt();
+        dataDePostagem = stream.readDate();
+        content = stream.readString();
+        sqlType = typeName;
+    }
+
+    @Override
+    public void writeSQL(SQLOutput stream) throws SQLException {
+        stream.writeInt(userId);
+        stream.writeInt(reviewId);
+        stream.writeDate(dataDePostagem);
+        stream.writeString(content);
     }
 
 }
