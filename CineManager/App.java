@@ -1,8 +1,10 @@
 public class App {
     public static void main(String[] args) {
         Usuario user = new Usuario(-1, null, null, null, false);
+        Filme filme = new Filme(null, 0, 0, null, null);
         Screens telas = new Screens();
-        int op = 0;
+        Review rev = new Review(0, null, null, null);
+        int op = 0, op2 = 0;
 
         // Login e Criação de conta
         while (op != 1 && op != 2) {
@@ -23,7 +25,12 @@ public class App {
         op = telas.mainMenu();
         switch (op) {
             case 1:
-                // list filmes
+                op2 = telas.displayFilmes(filme.showFilmes());
+                if (op2 == 0) {
+                    op = telas.mainMenu();
+                } else {
+                    telas.displayComments(rev.getAllRevielsFromId(op2));
+                }
                 break;
             case 2:
                 // Conta
@@ -36,6 +43,7 @@ public class App {
                 break;
 
             default:
+                op = telas.mainMenu();
                 break;
         }
 
