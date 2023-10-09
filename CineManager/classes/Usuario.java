@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-
 public class Usuario {
     int userId;
     String nome;
@@ -47,7 +46,7 @@ public class Usuario {
     public void editPass(String senha, int uiserId) {
         try {
             Connection conexao = DriverManager.getConnection(sqlKeys.url, sqlKeys.user, sqlKeys.password);
-            String sql = "UPDATE tabela_usuario SET senha = ? WHERE id = ?";
+            String sql = "UPDATE users SET senha = ? WHERE userid = ?";
             PreparedStatement preparedStatement = conexao.prepareStatement(sql);
             preparedStatement.setString(1, senha);
             preparedStatement.setInt(2, uiserId);
