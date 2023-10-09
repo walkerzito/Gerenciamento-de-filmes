@@ -29,17 +29,22 @@ public class App {
                 if (op2 == 0) {
                     op = telas.mainMenu();
                 } else {
-                    telas.displayComments(rev.getAllRevielsFromId(op2));
+                    // telas.displayComments(rev.getAllRevielsFromId(op2));
                 }
                 break;
             case 2:
-                // Conta
+                op = telas.exibirUser(user);
+                if (op == 1) {
+                    telas.editarSenha(user);
+                } else {
+                    op = telas.mainMenu();
+                }
                 break;
             case 3:
                 // Opções de Adm
                 break;
             case 4:
-                // sair
+                System.exit(0);
                 break;
 
             default:
